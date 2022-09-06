@@ -38,12 +38,6 @@ public class MovieController {
     return movieService.findMovieById(movie_id);
     }
 
-    //Find credits of movie
-    @GetMapping("api/movie/{movie_id}/credits")
-    public List<Movie> getCreditsOfMovieById(@PathVariable Integer movie_id) throws IOException {
-    return movieService.findCredits(movie_id);
-    }
-
     //Find recommendations
     @GetMapping("api/movie/{movie_id}/recommendations")
     public List<Movie> getRecommendationsOfMovieById(@PathVariable Integer movie_id) throws IOException {

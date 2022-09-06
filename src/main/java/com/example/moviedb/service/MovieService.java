@@ -61,14 +61,6 @@ public class MovieService {
         return Arrays.asList(response);
     }
 
-    //Find credits
-    public List<Movie> findCredits(Integer movie_id) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        String url = uri+"movie/"+movie_id.toString()+"/credits?api_key="+Key;
-        Movie[] response  = mapper.readValue(mapper.readTree(getJson(url).toString()).get("cast").toString(),Movie[].class);
-        return Arrays.asList(response);
-    }
-
     //Find recommendations
     public List<Movie> findRecommendations(Integer movie_id) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
