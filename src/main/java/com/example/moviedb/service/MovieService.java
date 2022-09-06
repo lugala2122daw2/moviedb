@@ -15,26 +15,74 @@ import java.util.List;
 @Service
 public class MovieService {
     final String uri = "https://api.themoviedb.org/3/";
-    final String apiKey = "db480a66e73e275109a44794db7efae1";
+    final String Key = "db480a66e73e275109a44794db7efae1";
 
-    public List<Movie> findAllMovieList() throws IOException {
-
-        ObjectMapper mapper = new ObjectMapper();
-        URL url = new URL(uri+"movie/popular?api_key="+apiKey);
-
-        InputStream input = url.openStream();
+    private StringBuilder getJson(String url) throws IOException {
+        InputStream input = new URL(url).openStream();
         InputStreamReader isr = new InputStreamReader(input);
         BufferedReader reader = new BufferedReader(isr);
         StringBuilder json = new StringBuilder();
-        int c ;
-        while((c= reader.read())!=-1){
-            json.append((char)c);
+        int a ;
+        while((a= reader.read())!=-1){
+            json.append((char)a);
         }
+        return json;
+    }
 
-        Movie[] response  = mapper.readValue(mapper.readTree(json.toString()).get("results").toString(),Movie[].class);
-
+    //Find all movies
+    public List<Movie> findAllMovieList() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        String url = uri+"movie/popular?api_key="+Key;
+        Movie[] response  = mapper.readValue(mapper.readTree(getJson(url).toString()).get("results").toString(),Movie[].class);
         return Arrays.asList(response);
+    }
 
+    //Find popular movies
+    public List<Movie> findPopularMovies() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        String url = uri+"movie/popular?api_key="+Key;
+        Movie[] response  = mapper.readValue(mapper.readTree(getJson(url).toString()).get("results").toString(),Movie[].class);
+        return Arrays.asList(response);
+    }
+
+    //Find movie by Id
+    public Movie findMovieById(Integer movie_id) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        String url = uri+"movie/"+movie_id.toString()+"?api_key="+Key;
+        Movie response  = mapper.readValue(mapper.readTree(getJson(url).toString()).toString(),Movie.class);
+        return response;
+    }
+
+    //Find top rated movies
+    public List<Movie> findTopRatedMovies() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        String url = uri+"movie/top_rated?api_key="+Key;
+        Movie[] response  = mapper.readValue(mapper.readTree(getJson(url).toString()).get("results").toString(),Movie[].class);
+        return Arrays.asList(response);
+    }
+
+    //Find credits
+    public List<Movie> findCredits(Integer movie_id) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        String url = uri+"movie/"+movie_id.toString()+"/credits?api_key="+Key;
+        Movie[] response  = mapper.readValue(mapper.readTree(getJson(url).toString()).get("cast").toString(),Movie[].class);
+        return Arrays.asList(response);
+    }
+
+    //Find recommendations
+    public List<Movie> findRecommendations(Integer movie_id) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        String url = uri+"movie/"+movie_id.toString()+"/recommendations?api_key="+Key;
+        Movie[] response  = mapper.readValue(mapper.readTree(getJson(url).toString()).get("results").toString(),Movie[].class);
+        return Arrays.asList(response);
+    }
+
+    //Find similar movies
+    public List<Movie> findSimilarMovies(Integer movie_id) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        String url = uri+"movie/"+movie_id.toString()+"/similar?api_key="+Key;
+        Movie[] response  = mapper.readValue(mapper.readTree(getJson(url).toString()).get("results").toString(),Movie[].class);
+        return Arrays.asList(response);
     }
 
 

@@ -17,6 +17,6 @@ public class GeneroController {
     @GetMapping("api/genero/movie/list")
     public List<Genero> getAllGenres() throws IOException {
 
-       return generoService.findAllGenreMovieList();
+       return generoService.findAllGeneroList();
     }
 }
